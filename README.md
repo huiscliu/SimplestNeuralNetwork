@@ -2,6 +2,8 @@
 A Neural Network in 11 lines of Python. Reference: https://iamtrask.github.io/2015/07/12/basic-python-network/
 
 ```
+Python version
+
 X = np.array([ [0,0,1],[0,1,1],[1,0,1],[1,1,1] ])
 y = np.array([[0,1,1,0]]).T
 syn0 = 2*np.random.random((3,4)) - 1
@@ -14,3 +16,5 @@ for j in xrange(60000):
     syn1 += l1.T.dot(l2_delta)
     syn0 += X.T.dot(l1_delta)
 ```
+
+A C version is also provided.

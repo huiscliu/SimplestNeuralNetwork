@@ -20,9 +20,9 @@ y = np.array([[0,0,1,1]]).T
 np.random.seed(1)
 
 # initialize weights randomly with mean 0
-syn0 = 2*np.random.random((3,1)) - 1
+syn0 = 2 * np.random.random((3,1)) - 1
 
-for iter in xrange(10000):
+for iter in xrange(60000):
 
     # forward propagation
     l0 = X

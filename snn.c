@@ -11,28 +11,28 @@ static double sigmoid(double x, int deriv)
     return 1 / (1 + exp(-x));
 }
 
-static void get_l1(double *l1, double l0[4][3], double syn0[3])
+static void get_L1(double *L1, double L0[4][3], double syn0[3])
 {
     int i, j;
 
     for (i = 0; i < 4; i++) {
-        l1[i] = 0;
+        L1[i] = 0;
 
         for (j = 0; j < 3; j++) {
-            l1[i] += l0[i][j] * syn0[j];
+            L1[i] += L0[i][j] * syn0[j];
         }
     }
 
-    for (i = 0; i < 4; i++) l1[i] = sigmoid(l1[i], 0);
+    for (i = 0; i < 4; i++) L1[i] = sigmoid(L1[i], 0);
 }
 
-static void update_weight(double syn0[3], double l0[4][3], double l1_delta[4])
+static void update_weight(double syn0[3], double L0[4][3], double L1_delta[4])
 {
     int i, j;
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 4; j++) {
-            syn0[i] += l0[j][i] * l1_delta[j];
+            syn0[i] += L0[j][i] * L1_delta[j];
         }
     }
 }
@@ -40,12 +40,12 @@ static void update_weight(double syn0[3], double l0[4][3], double l1_delta[4])
 int main(void)
 {
     double X[4][3] = {{0, 0, 1},{0, 1, 1},{1, 0, 1},{1, 1, 1}};
-    double y[4] = {0, 0, 1, 1};
+    double Y[4] = {0, 0, 1, 1};
     double syn0[3];
-    double l0[4][3];
-    double l1[4];
-    double l1_error[4];
-    double l1_delta[4];
+    double L0[4][3];
+    double L1[4];
+    double L1_error[4];
+    double L1_delta[4];
 
     int i, j;
 
@@ -55,22 +55,22 @@ int main(void)
 
     for (i = 0; i < 10000; i++) {
         /* forward propagation */
-        memcpy(l0, X, sizeof(double) * 12);
-        get_l1(l1, l0, syn0);
+        memcpy(L0, X, sizeof(double) * 12);
+        get_L1(L1, L0, syn0);
 
         /* how much did we miss? */
-        for (j = 0; j < 4; j++) l1_error[j] = y[j] - l1[j];
+        for (j = 0; j < 4; j++) L1_error[j] = Y[j] - L1[j];
 
         /* multiply how much we missed by the
-         * slope of the sigmoid at the values in l1 */
-        for (j = 0; j < 4; j++) l1_delta[j] = l1_error[j] * sigmoid(l1[j], 1);
+         * slope of the sigmoid at the values in L1 */
+        for (j = 0; j < 4; j++) L1_delta[j] = L1_error[j] * sigmoid(L1[j], 1);
 
         /* update weights */
-        update_weight(syn0, l0, l1_delta);
+        update_weight(syn0, L0, L1_delta);
     }
 
     printf("Output After Training:\n");
-    for (j = 0; j < 4; j++) printf("%g\n", l1[j]);
+    for (j = 0; j < 4; j++) printf("%g\n", L1[j]);
 
     return 0;
 }

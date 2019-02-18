@@ -11,7 +11,7 @@ static double sigmoid(double x, int deriv)
     return 1 / (1 + exp(-x));
 }
 
-static void get_L1(double *L1, double L0[4][3], double syn0[3])
+static void update_L1(double *L1, double L0[4][3], double syn0[3])
 {
     int i, j;
 
@@ -41,6 +41,7 @@ int main(void)
 {
     double X[4][3] = {{0, 0, 1},{0, 1, 1},{1, 0, 1},{1, 1, 1}};
     double Y[4] = {0, 0, 1, 1};
+
     double syn0[3];
     double L0[4][3];
     double L1[4];
@@ -56,7 +57,7 @@ int main(void)
     for (i = 0; i < 10000; i++) {
         /* forward propagation */
         memcpy(L0, X, sizeof(double) * 12);
-        get_L1(L1, L0, syn0);
+        update_L1(L1, L0, syn0);
 
         /* how much did we miss? */
         for (j = 0; j < 4; j++) L1_error[j] = Y[j] - L1[j];

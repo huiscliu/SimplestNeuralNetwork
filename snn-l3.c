@@ -7,7 +7,9 @@
 #include <string.h>
 #include <assert.h>
 
-static double sigmoid(double x, int deriv)
+typedef double FLOAT;
+
+static FLOAT sigmoid(FLOAT x, int deriv)
 {
 #if 0
     if (deriv)  return 1 * (1 - x);
@@ -18,7 +20,7 @@ static double sigmoid(double x, int deriv)
     return 1 / (1 + exp(-x));
 }
 
-static void get_L1(double L1[4][4], double L0[4][3], double syn0[3][4])
+static void get_L1(FLOAT L1[4][4], FLOAT L0[4][3], FLOAT syn0[3][4])
 {
     int i, j, k;
 
@@ -39,7 +41,7 @@ static void get_L1(double L1[4][4], double L0[4][3], double syn0[3][4])
     }
 }
 
-static void get_L2(double L2[4], double L1[4][4], double syn1[4])
+static void get_L2(FLOAT L2[4], FLOAT L1[4][4], FLOAT syn1[4])
 {
     int i, j;
 
@@ -54,9 +56,9 @@ static void get_L2(double L2[4], double L1[4][4], double syn1[4])
     for (i = 0; i < 4; i++) L2[i] = sigmoid(L2[i], 0);
 }
 
-static double abs_mean(double *L2, int n)
+static FLOAT abs_mean(FLOAT *L2, int n)
 {
-    double t = 0.;
+    FLOAT t = 0.;
     int i;
 
     assert(n >= 0);
@@ -68,7 +70,7 @@ static double abs_mean(double *L2, int n)
     return t / n;
 }
 
-static void update_syn1(double syn1[4], double L1[4][4], double L2_delta[4])
+static void update_syn1(FLOAT syn1[4], FLOAT L1[4][4], FLOAT L2_delta[4])
 {
     int i, j;
 
@@ -79,7 +81,7 @@ static void update_syn1(double syn1[4], double L1[4][4], double L2_delta[4])
     }
 }
 
-static void update_syn0(double syn0[3][4], double L0[4][3], double L1_delta[4][4])
+static void update_syn0(FLOAT syn0[3][4], FLOAT L0[4][3], FLOAT L1_delta[4][4])
 {
     int i, j, k;
 
@@ -94,21 +96,21 @@ static void update_syn0(double syn0[3][4], double L0[4][3], double L1_delta[4][4
 
 int main(void)
 {
-    double X[4][3] = {{0, 0, 1}, {0, 1, 1}, {1, 0, 1}, {1, 1, 1}};
-    double Y[4] = {0, 1, 1, 0};
+    FLOAT X[4][3] = {{0, 0, 1}, {0, 1, 1}, {1, 0, 1}, {1, 1, 1}};
+    FLOAT Y[4] = {0, 1, 1, 0};
 
-    double syn0[3][4];
-    double syn1[4];
+    FLOAT syn0[3][4];
+    FLOAT syn1[4];
 
-    double L0[4][3];
-    double L1[4][4];
-    double L2[4];
+    FLOAT L0[4][3];
+    FLOAT L1[4][4];
+    FLOAT L2[4];
 
-    double L2_error[4];
-    double L2_delta[4];
+    FLOAT L2_error[4];
+    FLOAT L2_delta[4];
 
-    double L1_delta[4][4];
-    double L1_error[4][4];
+    FLOAT L1_delta[4][4];
+    FLOAT L1_error[4][4];
 
     int i, j, k;
 
@@ -127,7 +129,7 @@ int main(void)
     for (i = 0; i < 60000; i++) {
         /* forward propagation */
         /* L0, move fowrward to speed */
-        memcpy(L0, X, sizeof(double) * 12);
+        memcpy(L0, X, sizeof(FLOAT) * 12);
 
         /* L1 */
         get_L1(L1, L0, syn0);

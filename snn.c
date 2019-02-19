@@ -6,7 +6,9 @@
 #include <math.h>
 #include <string.h>
 
-static double sigmoid(double x, int deriv)
+typedef double FLOAT;
+
+static FLOAT sigmoid(FLOAT x, int deriv)
 {
 #if 0
     if (deriv)  return 1 * (1 - x);
@@ -17,7 +19,7 @@ static double sigmoid(double x, int deriv)
     return 1 / (1 + exp(-x));
 }
 
-static void update_L1(double *L1, double L0[4][3], double syn0[3])
+static void update_L1(FLOAT *L1, FLOAT L0[4][3], FLOAT syn0[3])
 {
     int i, j;
 
@@ -32,7 +34,7 @@ static void update_L1(double *L1, double L0[4][3], double syn0[3])
     for (i = 0; i < 4; i++) L1[i] = sigmoid(L1[i], 0);
 }
 
-static void update_weight(double syn0[3], double L0[4][3], double L1_delta[4])
+static void update_weight(FLOAT syn0[3], FLOAT L0[4][3], FLOAT L1_delta[4])
 {
     int i, j;
 
@@ -45,14 +47,14 @@ static void update_weight(double syn0[3], double L0[4][3], double L1_delta[4])
 
 int main(void)
 {
-    double X[4][3] = {{0, 0, 1},{0, 1, 1},{1, 0, 1},{1, 1, 1}};
-    double Y[4] = {0, 0, 1, 1};
+    FLOAT X[4][3] = {{0, 0, 1},{0, 1, 1},{1, 0, 1},{1, 1, 1}};
+    FLOAT Y[4] = {0, 0, 1, 1};
 
-    double syn0[3];
-    double L0[4][3];
-    double L1[4];
-    double L1_error[4];
-    double L1_delta[4];
+    FLOAT syn0[3];
+    FLOAT L0[4][3];
+    FLOAT L1[4];
+    FLOAT L1_error[4];
+    FLOAT L1_delta[4];
 
     int i, j;
 
@@ -62,7 +64,7 @@ int main(void)
 
     for (i = 0; i < 10000; i++) {
         /* forward propagation */
-        memcpy(L0, X, sizeof(double) * 12);
+        memcpy(L0, X, sizeof(FLOAT) * 12);
         update_L1(L1, L0, syn0);
 
         /* how much did we miss? */

@@ -18,7 +18,7 @@ static double sigmoid(double x, int deriv)
     return 1 / (1 + exp(-x));
 }
 
-static void blas_mm4x4(double L1[4][4], double L0[4][3], double syn0[3][4])
+static void get_L1(double L1[4][4], double L0[4][3], double syn0[3][4])
 {
     int i, j, k;
 
@@ -39,7 +39,7 @@ static void blas_mm4x4(double L1[4][4], double L0[4][3], double syn0[3][4])
     }
 }
 
-static void blas_mv4x4(double L2[4], double L1[4][4], double syn1[4])
+static void get_L2(double L2[4], double L1[4][4], double syn1[4])
 {
     int i, j;
 
@@ -130,10 +130,10 @@ int main(void)
         memcpy(L0, X, sizeof(double) * 12);
 
         /* L1 */
-        blas_mm4x4(L1, L0, syn0);
+        get_L1(L1, L0, syn0);
 
         /* L2 */
-        blas_mv4x4(L2, L1, syn1);
+        get_L2(L2, L1, syn1);
 
         /* how much did we miss? */
         for (j = 0; j < 4; j++) L2_error[j] = Y[j] - L2[j];

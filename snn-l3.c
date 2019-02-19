@@ -9,7 +9,11 @@
 
 static double sigmoid(double x, int deriv)
 {
+#if 0
     if (deriv)  return 1 * (1 - x);
+#else
+    if (deriv)  return exp(x) / (1 + exp(x)) / (1 + exp(x));
+#endif
 
     return 1 / (1 + exp(-x));
 }
@@ -59,7 +63,7 @@ static double abs_mean(double *L2, int n)
 
     if (n == 0) return 0.;
 
-    for (i = 0; i < n; i++) t += abs(L2[i]);
+    for (i = 0; i < n; i++) t += fabs(L2[i]);
 
     return t / n;
 }
@@ -90,7 +94,7 @@ static void update_syn0(double syn0[3][4], double L0[4][3], double L1_delta[4][4
 
 int main(void)
 {
-    double X[4][3] = {{0, 0, 1},{0, 1, 1},{1, 0, 1},{1, 1, 1}};
+    double X[4][3] = {{0, 0, 1}, {0, 1, 1}, {1, 0, 1}, {1, 1, 1}};
     double Y[4] = {0, 1, 1, 0};
 
     double syn0[3][4];
@@ -112,11 +116,13 @@ int main(void)
     srand(1);
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 4; j++) {
-            syn0[i][j] = rand() * 1. / RAND_MAX * 2. - 1;
+            syn0[i][j] = rand() * 2. / RAND_MAX - 1;
         }
     }
 
-    for (i = 0; i < 4; i++) syn1[i] = rand() * 1. / RAND_MAX * 2. - 1;
+    for (i = 0; i < 4; i++) {
+        syn1[i] = rand() * 2. / RAND_MAX - 1;
+    }
 
     for (i = 0; i < 60000; i++) {
         /* forward propagation */
@@ -134,11 +140,10 @@ int main(void)
 
         if (i % 10000 == 0) printf("Error: %g\n", abs_mean(L2_error, 4));
 
-        /* in what direction is the target value?
-         * were we really sure? if so, don't change too much. */
+        /* in what direction is the target value?  were we really sure? if so, don't change too much. */
         for (j = 0; j < 4; j++) L2_delta[j] = L2_error[j] * sigmoid(L2[j], 1);
 
-        /*  how much did each l1 value contribute to the l2 error (according to the weights)? */
+        /* how much did each l1 value contribute to the l2 error (according to the weights)? */
         for (j = 0; j < 4; j++) {
             for (k = 0; k < 4; k++) {
                 L1_error[j][k] = L2_delta[j] * syn1[k];

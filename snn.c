@@ -8,7 +8,11 @@
 
 static double sigmoid(double x, int deriv)
 {
+#if 0
     if (deriv)  return 1 * (1 - x);
+#else
+    if (deriv)  return exp(x) / (1 + exp(x)) / (1 + exp(x));
+#endif
 
     return 1 / (1 + exp(-x));
 }

@@ -126,7 +126,7 @@ int main(void)
 
     for (i = 0; i < 60000; i++) {
         /* forward propagation */
-        /* L0 */
+        /* L0, move fowrward to speed */
         memcpy(L0, X, sizeof(double) * 12);
 
         /* L1 */

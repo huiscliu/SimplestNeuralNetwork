@@ -27,6 +27,12 @@ static void blas_mm4x4(double L1[4][4], double L0[4][3], double syn0[3][4])
             }
         }
     }
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            L1[i][j] = sigmoid(L1[i][j], 0);
+        }
+    }
 }
 
 static void blas_mv4x4(double L2[4], double L1[4][4], double syn1[4])
@@ -40,6 +46,8 @@ static void blas_mv4x4(double L2[4], double L1[4][4], double syn1[4])
             L2[i] += L1[i][j] * syn1[j];
         }
     }
+
+    for (i = 0; i < 4; i++) L2[i] = sigmoid(L2[i], 0);
 }
 
 static double abs_mean(double *L2, int n)

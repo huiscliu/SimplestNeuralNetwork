@@ -1,14 +1,14 @@
 
-default: snn snn-l3
+default: snn-l2 snn-l3
 
-snn: snn.o
-	gcc -o snn snn.o -lm
+snn-l2: snn-l2.o
+	gcc -o snn-l2 snn-l2.o -lm
 
 snn-l3: snn-l3.o
 	gcc -o snn-l3 snn-l3.o -lm
 
-snn.o: snn.c
-	gcc -Wall -Wextra -O2 -g -c snn.c 
+snn-l2.o: snn-l2.c
+	gcc -Wall -Wextra -O2 -g -c snn-l2.c 
 
 snn-l3.o: snn-l3.c
 	gcc -Wall -Wextra -O2 -g -c snn-l3.c 

@@ -1,5 +1,5 @@
 
-/* a two layer neural network huiscliu */
+/* a two layer neural network by huiscliu */
 
 #include <stdio.h>
 #include <stdlib.h>

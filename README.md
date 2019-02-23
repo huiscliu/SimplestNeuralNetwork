@@ -1,5 +1,6 @@
 # SimplestNeuralNetwork
-A two layer Neural Network in 11 lines of Python. Reference: https://iamtrask.github.io/2015/07/12/basic-python-network/
+
+1) A two layer Neural Network in 11 lines of Python. Reference: https://iamtrask.github.io/2015/07/12/basic-python-network/
 
 ```
 Python version
@@ -18,3 +19,5 @@ for j in xrange(60000):
 ```
 
 A C version is also provided.
+
+2) A three layer Neural Network in Python and C.

@@ -38,6 +38,7 @@ for j in xrange(60000):
     
     # in what direction is the target l1?
     # were we really sure? if so, don't change too much.
+    #
     l1_delta = l1_error * nonlin(l1,deriv=True)
 
     syn1 += l1.T.dot(l2_delta)
